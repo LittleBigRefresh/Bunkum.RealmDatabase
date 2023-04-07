@@ -6,4 +6,9 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Bunkum" Version="2.2.11" />
+      <PackageReference Include="Realm" Version="10.21.0" />
+    </ItemGroup>
+
 </Project>
