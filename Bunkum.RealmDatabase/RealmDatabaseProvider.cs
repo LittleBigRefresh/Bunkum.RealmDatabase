@@ -3,7 +3,7 @@ using Realms;
 
 namespace Bunkum.RealmDatabase;
 
-public abstract class RealmDatabaseProvider : IDatabaseProvider<RealmDatabaseContext>
+public abstract class RealmDatabaseProvider<TContext> : IDatabaseProvider<TContext> where TContext : RealmDatabaseContext, new()
 {
     private RealmConfiguration _configuration = null!;
 
@@ -25,10 +25,14 @@ public abstract class RealmDatabaseProvider : IDatabaseProvider<RealmDatabaseCon
     
     private readonly ThreadLocal<Realm> _realmStorage = new(true);
 
-    public RealmDatabaseContext GetContext()
+    public TContext GetContext()
     {
         this._realmStorage.Value ??= Realm.GetInstance(this._configuration);
-        return new RealmDatabaseContext(this._realmStorage.Value);
+        
+        TContext context = new();
+        context.InitializeContext(this._realmStorage.Value);
+
+        return context;
     }
     
     public void Dispose()

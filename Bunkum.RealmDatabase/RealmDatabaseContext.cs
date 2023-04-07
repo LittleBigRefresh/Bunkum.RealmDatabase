@@ -3,11 +3,15 @@ using Realms;
 
 namespace Bunkum.RealmDatabase;
 
-public class RealmDatabaseContext : IDatabaseContext
+public abstract class RealmDatabaseContext : IDatabaseContext
 {
-    private readonly Realm _realm;
+    // ReSharper disable once MemberCanBePrivate.Global
+    // ReSharper disable once InconsistentNaming
+    protected Realm _realm { get; private set; } = null!;
 
-    internal RealmDatabaseContext(Realm realm)
+    private RealmDatabaseContext() {}
+
+    internal void InitializeContext(Realm realm)
     {
         this._realm = realm;
     }
