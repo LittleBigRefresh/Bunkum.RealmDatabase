@@ -1,8 +1,10 @@
-﻿using Bunkum.HttpServer.Database;
+﻿using Bunkum.HttpServer;
+using Bunkum.HttpServer.Database;
 using Realms;
 
 namespace Bunkum.RealmDatabase;
 
+// ReSharper disable once UnusedType.Global
 public abstract class RealmDatabaseProvider<TContext> : IDatabaseProvider<TContext> where TContext : RealmDatabaseContext, new()
 {
     private RealmConfiguration _configuration = null!;
@@ -13,7 +15,7 @@ public abstract class RealmDatabaseProvider<TContext> : IDatabaseProvider<TConte
 
     public void Initialize()
     {
-        this._configuration = new RealmConfiguration(this.Filename)
+        this._configuration = new RealmConfiguration(Path.Join(BunkumFileSystem.DataDirectory, this.Filename))
         {
             SchemaVersion = this.SchemaVersion,
             Schema = this.SchemaTypes,

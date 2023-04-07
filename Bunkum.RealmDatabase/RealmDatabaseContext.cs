@@ -9,7 +9,7 @@ public abstract class RealmDatabaseContext : IDatabaseContext
     // ReSharper disable once InconsistentNaming
     protected Realm _realm { get; private set; } = null!;
 
-    private RealmDatabaseContext() {}
+    protected RealmDatabaseContext() {}
 
     internal void InitializeContext(Realm realm)
     {
