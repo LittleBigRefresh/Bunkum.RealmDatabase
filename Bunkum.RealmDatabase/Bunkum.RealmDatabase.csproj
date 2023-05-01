@@ -33,7 +33,7 @@
     </Target>
 
     <ItemGroup>
-      <PackageReference Include="Bunkum" Version="3.0.2" />
+      <PackageReference Include="Bunkum" Version="3.0.3" />
       <PackageReference Include="Realm" Version="10.21.1" />
     </ItemGroup>
 
