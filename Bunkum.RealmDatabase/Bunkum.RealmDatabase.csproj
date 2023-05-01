@@ -34,7 +34,7 @@
 
     <ItemGroup>
       <PackageReference Include="Bunkum" Version="3.0.0" />
-      <PackageReference Include="Realm" Version="10.21.0" />
+      <PackageReference Include="Realm" Version="10.21.1" />
     </ItemGroup>
 
 </Project>
