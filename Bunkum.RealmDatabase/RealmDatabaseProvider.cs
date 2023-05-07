@@ -7,14 +7,40 @@ namespace Bunkum.RealmDatabase;
 // ReSharper disable once UnusedType.Global
 public abstract class RealmDatabaseProvider<TContext> : IDatabaseProvider<TContext> where TContext : RealmDatabaseContext, new()
 {
-    private RealmConfiguration _configuration = null!;
+    private RealmConfigurationBase _configuration = null!;
 
+    /// <summary>
+    /// The version of your database's schema. Increment this when you make changes to your database.
+    /// </summary>
     protected abstract ulong SchemaVersion { get; }
+    /// <summary>
+    /// A list of types that appear in your database's schema.
+    /// </summary>
     protected abstract List<Type> SchemaTypes { get; }
+    
+    /// <summary>
+    /// The filename of your realm database. For example, <c>gameServer.realm</c>.
+    /// </summary>
     protected abstract string Filename { get; }
+    
+    /// <summary>
+    /// Allows the Realm to be persisted in memory instead of being attached to a file. Useful for integration tests.
+    /// </summary>
+    protected virtual bool InMemory => false;
 
     public void Initialize()
     {
+        if (this.InMemory)
+        {
+            this._configuration = new InMemoryConfiguration(this.Filename)
+            {
+                SchemaVersion = this.SchemaVersion,
+                Schema = this.SchemaTypes,
+                // no migrations for in-memory realms
+            };
+            return;
+        }
+        
         this._configuration = new RealmConfiguration(Path.Join(BunkumFileSystem.DataDirectory, this.Filename))
         {
             SchemaVersion = this.SchemaVersion,
