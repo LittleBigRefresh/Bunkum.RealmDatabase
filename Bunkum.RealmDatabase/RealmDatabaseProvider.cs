@@ -32,7 +32,7 @@ public abstract class RealmDatabaseProvider<TContext> : IDatabaseProvider<TConte
     {
         if (this.InMemory)
         {
-            this._configuration = new InMemoryConfiguration(this.Filename)
+            this._configuration = new InMemoryConfiguration(Path.Join(Path.GetTempPath(), this.Filename))
             {
                 SchemaVersion = this.SchemaVersion,
                 Schema = this.SchemaTypes,

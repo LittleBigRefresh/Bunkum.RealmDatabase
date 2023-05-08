@@ -11,7 +11,7 @@ public class TestDatabaseProvider : RealmDatabaseProvider<TestDatabaseContext>
         typeof(TestModel),
     };
 
-    protected override string Filename => Path.Combine(Path.GetTempPath(), "test");
+    protected override string Filename => "test";
     protected override void Migrate(Migration migration, ulong oldVersion)
     {
         // none
