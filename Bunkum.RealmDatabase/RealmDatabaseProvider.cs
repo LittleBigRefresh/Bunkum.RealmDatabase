@@ -56,6 +56,7 @@ public abstract class RealmDatabaseProvider<TContext> : IDatabaseProvider<TConte
     public TContext GetContext()
     {
         this._realmStorage.Value ??= Realm.GetInstance(this._configuration);
+        this._realmStorage.Value.Refresh();
         
         TContext context = new();
         context.InitializeContext(this._realmStorage.Value);
