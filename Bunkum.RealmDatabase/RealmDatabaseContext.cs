@@ -15,10 +15,15 @@ public abstract class RealmDatabaseContext : IDatabaseContext
     {
         this._realm = realm;
     }
+
+    public void Refresh()
+    {
+        this._realm.Refresh();
+    }
     
     public void Dispose()
     {
         //NOTE: we dont dispose the realm here, because the same thread may use it again, so we just `Refresh()` it
-        this._realm.Refresh();
+        this.Refresh();
     }
 }
