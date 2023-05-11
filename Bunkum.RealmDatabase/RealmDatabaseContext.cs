@@ -1,15 +1,15 @@
+using System.Diagnostics.CodeAnalysis;
 using Bunkum.HttpServer.Database;
 using Realms;
 
 namespace Bunkum.RealmDatabase;
 
+[SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
 public abstract class RealmDatabaseContext : IDatabaseContext
 {
     // ReSharper disable once MemberCanBePrivate.Global
     // ReSharper disable once InconsistentNaming
     protected Realm _realm { get; private set; } = null!;
-
-    protected RealmDatabaseContext() {}
 
     internal void InitializeContext(Realm realm)
     {

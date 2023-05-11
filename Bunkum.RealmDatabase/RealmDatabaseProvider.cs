@@ -47,6 +47,14 @@ public abstract class RealmDatabaseProvider<TContext> : IDatabaseProvider<TConte
             Schema = this.SchemaTypes,
             MigrationCallback = this.Migrate,
         };
+        
+        this.Warmup();
+    }
+
+    // ReSharper disable once VirtualMemberNeverOverridden.Global
+    protected virtual void Warmup()
+    {
+        
     }
 
     protected abstract void Migrate(Migration migration, ulong oldVersion);
