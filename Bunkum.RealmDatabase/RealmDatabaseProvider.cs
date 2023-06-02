@@ -5,7 +5,7 @@ using Realms;
 namespace Bunkum.RealmDatabase;
 
 // ReSharper disable once UnusedType.Global
-public abstract class RealmDatabaseProvider<TContext> : IDatabaseProvider<TContext> where TContext : RealmDatabaseContext, new()
+public abstract class RealmDatabaseProvider<TContext> : IDatabaseProvider<TContext> where TContext : RealmDatabaseContext
 {
     private RealmConfigurationBase _configuration = null!;
 
@@ -47,15 +47,9 @@ public abstract class RealmDatabaseProvider<TContext> : IDatabaseProvider<TConte
             Schema = this.SchemaTypes,
             MigrationCallback = this.Migrate,
         };
-        
-        this.Warmup();
     }
-
-    // ReSharper disable once VirtualMemberNeverOverridden.Global
-    protected virtual void Warmup()
-    {
-        
-    }
+    
+    public abstract void Warmup();
 
     protected abstract void Migrate(Migration migration, ulong oldVersion);
     
@@ -66,7 +60,7 @@ public abstract class RealmDatabaseProvider<TContext> : IDatabaseProvider<TConte
         this._realmStorage.Value ??= Realm.GetInstance(this._configuration);
         this._realmStorage.Value.Refresh();
         
-        TContext context = new();
+        TContext context = Activator.CreateInstance<TContext>();
         context.InitializeContext(this._realmStorage.Value);
 
         return context;

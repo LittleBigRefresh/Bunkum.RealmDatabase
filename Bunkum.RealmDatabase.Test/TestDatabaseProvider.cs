@@ -12,6 +12,13 @@ public class TestDatabaseProvider : RealmDatabaseProvider<TestDatabaseContext>
     };
 
     protected override string Filename => "test";
+    
+    public override void Warmup()
+    {
+        using TestDatabaseContext context = this.GetContext();
+        _ = context.GetTests();
+    }
+
     protected override void Migrate(Migration migration, ulong oldVersion)
     {
         // none
