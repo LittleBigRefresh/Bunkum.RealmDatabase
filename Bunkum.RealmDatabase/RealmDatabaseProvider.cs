@@ -55,12 +55,14 @@ public abstract class RealmDatabaseProvider<TContext> : IDatabaseProvider<TConte
     
     private readonly ThreadLocal<Realm> _realmStorage = new(true);
 
+    protected virtual TContext CreateContext() => Activator.CreateInstance<TContext>();
+
     public TContext GetContext()
     {
         this._realmStorage.Value ??= Realm.GetInstance(this._configuration);
         this._realmStorage.Value.Refresh();
         
-        TContext context = Activator.CreateInstance<TContext>();
+        TContext context = this.CreateContext();
         context.InitializeContext(this._realmStorage.Value);
 
         return context;
